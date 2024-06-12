@@ -4,57 +4,63 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Customer;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class CustomerController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $customers = Customer::all();
-        return view('customers.index', compact('customers'));
-    }
-
-    public function create()
-    {
-        return view('customers.create');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:customers,email',
-            'address' => 'required',
+        $customers = Customer::all(); 
+        return view('customers.index', [
+            "title" => "Customer",
+            "customers" => $customers
         ]);
-
-        Customer::create($request->all());
-        return redirect()->route('customers.index');
     }
 
-    public function show(Customer $customer)
+    public function create(): View
     {
-        return view('customers.show', compact('customer'));
+        return view('customers.create')->with([
+            "title" => "Tambah Data Customer",
+        ]);
     }
 
-    public function edit(Customer $customer)
-    {
-        return view('customers.edit', compact('customer'));
-    }
-
-    public function update(Request $request, Customer $customer)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:customers,email,'.$customer->id,
-            'address' => 'required',
+            "name" => "required",
+            "email" => "nullable|email",
+            "phone" => "nullable",
+        ]);
+        
+        Customer::create($request->all());
+        return redirect()->route('customers.index')->with('success', 'Data Customer Berhasil Ditambahkan');
+    }
+
+    public function edit(Customer $customer): View
+    {
+        return view('customers.edit', compact('customer'))->with([
+            "title" => "Ubah Data Customer",
+        ]);
+    }
+    
+    public function update(Customer $customer, Request $request): RedirectResponse
+    {
+        $request->validate([
+            "name" => "required",
+            "email" => "nullable|email",
+            "phone" => "nullable",
         ]);
 
         $customer->update($request->all());
-        return redirect()->route('customers.index');
+        return redirect()->route('customers.index')->with('updated', 'Data Customer Berhasil Diubah');
     }
 
-    public function destroy(Customer $customer)
+    public function destroy($id): RedirectResponse
     {
-        $customer->delete();
-        return redirect()->route('customers.index');
+        Customer::where('id', $id)->delete();
+        return redirect()->route('customers.index')->with('deleted', 'Data Customer Berhasil Dihapus');
     }
+
+    
 }

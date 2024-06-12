@@ -17,7 +17,9 @@ use App\Http\Controllers\ShipmentController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('dashboard',[
+        "title"=>"Dashboard"
+    ]);
 });
 
 Route::resource('customers', CustomerController::class);

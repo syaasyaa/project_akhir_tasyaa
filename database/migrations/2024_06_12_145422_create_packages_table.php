@@ -13,9 +13,9 @@ return new class extends Migration
     {
         Schema::create('packages', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
             $table->string('description');
-            $table->float('weight');
-            $table->float('price');
+            $table->decimal('weight', 8, 2);
             $table->timestamps();
         });
     }

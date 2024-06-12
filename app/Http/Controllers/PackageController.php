@@ -4,57 +4,61 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Package;
+use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
 
 class PackageController extends Controller
 {
-    public function index()
+    public function index(): View
     {
-        $packages = Package::all();
-        return view('packages.index', compact('packages'));
-    }
-
-    public function create()
-    {
-        return view('packages.create');
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'description' => 'required',
-            'weight' => 'required|numeric',
-            'price' => 'required|numeric',
+        $packages = Package::all(); 
+        return view('packages.index', [
+            "title" => "Paket",
+            "packages" => $packages
         ]);
-
-        Package::create($request->all());
-        return redirect()->route('packages.index');
     }
 
-    public function show(Package $package)
+    public function create(): View
     {
-        return view('packages.show', compact('package'));
+        return view('packages.create')->with([
+            "title" => "Tambah Data Paket",
+        ]);
     }
 
-    public function edit(Package $package)
-    {
-        return view('packages.edit', compact('package'));
-    }
-
-    public function update(Request $request, Package $package)
+    public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'description' => 'required',
-            'weight' => 'required|numeric',
-            'price' => 'required|numeric',
+            "name" => "required",
+            "description" => "required",
+            "weight" => "required|numeric",
+        ]);
+        
+        Package::create($request->all());
+        return redirect()->route('packages.index')->with('success', 'Data Paket Berhasil Ditambahkan');
+    }
+
+    public function edit(Package $package): View
+    {
+        return view('packages.edit', compact('package'))->with([
+            "title" => "Ubah Data Paket",
+        ]);
+    }
+    
+    public function update(Package $package, Request $request): RedirectResponse
+    {
+        $request->validate([
+            "name" => "required",
+            "description" => "required",
+            "weight" => "required|numeric",
         ]);
 
         $package->update($request->all());
-        return redirect()->route('packages.index');
+        return redirect()->route('packages.index')->with('updated', 'Data Paket Berhasil Diubah');
     }
 
-    public function destroy(Package $package)
+    public function destroy($id): RedirectResponse
     {
-        $package->delete();
-        return redirect()->route('packages.index');
+        Package::where('id', $id)->delete();
+        return redirect()->route('packages.index')->with('deleted', 'Data Paket Berhasil Dihapus');
     }
 }
