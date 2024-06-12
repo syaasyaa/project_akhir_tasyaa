@@ -33,6 +33,12 @@
                     <label for="shipment_date">Tanggal Pengiriman:</label>
                     <input type="date" class="form-control" id="shipment_date" name="shipment_date" required>
                 </div>
+                <div class="form-group">
+                    <label for="status">status:</label>
+                    <select class="form-control" id="status" name="status" required>
+                        <option value="dikirim">dikirim</option>
+                    </select>
+                </div>
                 <button type="submit" class="btn btn-primary">Simpan</button>
                 <a href="{{ route('shipments.index') }}" class="btn btn-secondary">Batal</a>
             </form>

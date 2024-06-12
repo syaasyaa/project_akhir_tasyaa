@@ -22,12 +22,12 @@ Route::get('/', function () {
     return view('dashboard',[
         "title"=>"Dashboard"
     ]);
-});
+})->middleware('auth');
 
-Route::resource('customers', CustomerController::class);
+Route::resource('customers', CustomerController::class)->middleware('auth');
 Route::resource('packages', PackageController::class)->middleware('auth');
-Route::resource('shipments', ShipmentController::class);
+Route::resource('shipments', ShipmentController::class)->middleware('auth');
 Route::get('login',[LoginController::class,'loginView'])->name('login');
 Route::post('login',[LoginController::class,'authenticate']);
 Route::post('logout',[LoginController::class,'logout'])->middleware('auth');
-Route::resource('pengguna',UserController::class)->except('destroy','create','show','update','edit');
+Route::resource('pengguna',UserController::class)->except('destroy','create','show','update','edit')->middleware('auth');

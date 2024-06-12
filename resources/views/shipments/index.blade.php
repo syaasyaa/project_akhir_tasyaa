@@ -21,6 +21,7 @@
                         <th>Customer</th>
                         <th>Paket</th>
                         <th>Tanggal Pengiriman</th>
+                        <th>status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
@@ -29,8 +30,9 @@
                     <tr>
                         <td>{{ $shipment->id }}</td>
                         <td>{{ $shipment->customer->name }}</td>
-                        <td>{{ $shipment->package->description }}</td>
+                        <td>{{ $shipment->package->name }}</td>
                         <td>{{ $shipment->shipment_date }}</td>
+                        <td>{{ $shipment->status }}</td>
                         <td>
                             <a href="{{ route('shipments.edit', $shipment->id) }}" class="btn btn-warning">Edit</a>
                             <form action="{{ route('shipments.destroy', $shipment->id) }}" method="POST" style="display:inline;">

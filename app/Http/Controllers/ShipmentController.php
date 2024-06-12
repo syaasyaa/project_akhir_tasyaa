@@ -35,10 +35,30 @@ class ShipmentController extends Controller
             "customer_id" => "required|exists:customers,id",
             "package_id" => "required|exists:packages,id",
             "shipment_date" => "required|date",
+            "status" => "required"
         ]);
         
         Shipment::create($request->all());
         return redirect()->route('shipments.index')->with('success', 'Data Pengiriman Berhasil Ditambahkan');
+    }
+
+    public function edit(Shipment $shipment): View
+    {
+        return view('shipments.edit', compact('shipment'))->with([
+            "title" => "Ubah Data Pengiriman",
+            "customers" => Customer::all(),
+            "packages" => Package::all()
+        ]);
+    }
+    
+    public function update(Shipment $shipment, Request $request): RedirectResponse
+    {
+        $request->validate([
+            "status" => "required"
+        ]);
+
+        $shipment->update($request->all());
+        return redirect()->route('shipments.index')->with('updated', 'Data Pengiriman Berhasil Diubah');
     }
 
     public function destroy($id): RedirectResponse

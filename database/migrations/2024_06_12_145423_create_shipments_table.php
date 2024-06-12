@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('customer_id')->constrained()->onDelete('cascade');
             $table->foreignId('package_id')->constrained()->onDelete('cascade');
             $table->date('shipment_date');
+            $table->enum('status', ['dikirim', 'diterima']);
             $table->timestamps();
         });
     }
