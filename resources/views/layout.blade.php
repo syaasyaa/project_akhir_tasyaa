@@ -30,12 +30,34 @@
 
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" data-widget="fullscreen" href="#" role="button">
-                        <i class="fas fa-expand-arrows-alt"></i>
+            <li class="nav-item dropdown">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-user mr-2"></i>{{ Auth::user()->name }}
+                    <span class="badge badge-warning navbar-badge"></span>
+                </a>
+                <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                    <span class="dropdown-item dropdown-header">User Menu</span>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" class="dropdown-item">
+                        <i class="fas fa-user mr-2"></i> {{ Auth::user()->name }}
+                        <span class="float-right text-muted text-sm"></span>
                     </a>
-                </li>
-            </ul>
+
+                    <div class="dropdown-divider"></div>
+                    <form action="logout" method="POST">
+                        @csrf
+                            <button type="submit" class="dropdown-item"><i class="fas fa-sign-out-alt mr-2"></i>Logout</button>
+                    </form>
+                </div>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" data-widget="fullscreen" href="#" role="button">
+                    <i class="fas fa-expand-arrows-alt"></i>
+                </a>
+            </li>
+
+        </ul>
         </nav>
         <!-- /.navbar -->
 
@@ -44,7 +66,7 @@
             <!-- Brand Logo -->
             <a href="/" class="brand-link">
                 <img src="{{ asset('dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">POS</span>
+                <span class="brand-text font-weight-light">pengiriman paket</span>
             </a>
 
             <!-- Sidebar -->
@@ -55,7 +77,7 @@
                         <img src="{{ asset('dist/img/user2-160x160.jpg') }}" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Safrizal</a>
+                        <a href="#" class="d-block">{{ Auth::user()->name }}</a>
                     </div>
                 </div>
 
@@ -65,12 +87,12 @@
                         <!-- Add icons to the links using the .nav-icon class
                              with font-awesome or any other icon font library -->
 
-                        <!-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="/" class="nav-link {{ $title === 'Dashboard' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>Dashboard</p>
                             </a>
-                        </li> -->
+                        </li>
                         
                         <li class="nav-item">
                             <a href="{{ route('customers.index') }}" class="nav-link {{ $title === 'Customers' ? 'active' : '' }}">
@@ -81,13 +103,19 @@
                         <li class="nav-item">
                             <a href="{{ route('packages.index') }}" class="nav-link {{ $title === 'Packages' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-box"></i>
-                                <p>Packages</p>
+                                <p>paket</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="{{ route('shipments.index') }}" class="nav-link {{ $title === 'Shipments' ? 'active' : '' }}">
                                 <i class="nav-icon fas fa-shipping-fast"></i>
-                                <p>Shipments</p>
+                                <p>pengiriman</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route('pengguna.index') }}" class="nav-link {{ $title === 'pengguna' ? 'active' : '' }}">
+                            <i class="nav-icon fas fa-users"></i>
+                                <p>pengguna</p>
                             </a>
                         </li>
                     </ul>

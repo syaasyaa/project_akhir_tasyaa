@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ShipmentController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,5 +25,9 @@ Route::get('/', function () {
 });
 
 Route::resource('customers', CustomerController::class);
-Route::resource('packages', PackageController::class);
+Route::resource('packages', PackageController::class)->middleware('auth');
 Route::resource('shipments', ShipmentController::class);
+Route::get('login',[LoginController::class,'loginView'])->name('login');
+Route::post('login',[LoginController::class,'authenticate']);
+Route::post('logout',[LoginController::class,'logout'])->middleware('auth');
+Route::resource('pengguna',UserController::class)->except('destroy','create','show','update','edit');
